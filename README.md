@@ -2,6 +2,8 @@
 
 Predicts whether a person earns above 50,000 dollars a year from census data: exploratory analysis, cleaning, a scikit-learn feature pipeline, three models compared with cross-validation, and an error analysis.
 
+> **Status:** pending quality review. This project has not had its final review yet.
+
 ## Demo
 
 ![Every model on every metric, from 5-fold cross-validation](docs/media/thumbnail.png)
