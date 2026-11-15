@@ -1,0 +1,328 @@
+{
+  "version": "1.0.0",
+  "settings": {
+    "seed": 42,
+    "test_size": 0.2,
+    "cv_folds": 5,
+    "threshold": 0.5,
+    "selection_metric": "f1",
+    "max_threads": 2,
+    "max_rows": null,
+    "min_category_share": 0.01,
+    "logistic_max_iter": 500,
+    "forest_trees": 100,
+    "forest_max_depth": 14,
+    "boosting_iterations": 150,
+    "boosting_learning_rate": 0.1
+  },
+  "cleaning": {
+    "rows_in": 48842,
+    "duplicate_rows_removed": 52,
+    "rows_out": 48790,
+    "missing_by_column": {
+      "workclass": 2795,
+      "occupation": 2805,
+      "native_country": 856
+    },
+    "positive_share": 0.2394
+  },
+  "rows": {
+    "train": 39032,
+    "test": 9758
+  },
+  "cross_validation": {
+    "baseline": {
+      "f1": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "roc_auc": {
+        "mean": 0.5,
+        "std": 0.0
+      },
+      "rmse": {
+        "mean": 0.4267,
+        "std": 0.0
+      },
+      "mae": {
+        "mean": 0.3642,
+        "std": 0.0
+      },
+      "accuracy": {
+        "mean": 0.7606,
+        "std": 0.0
+      },
+      "precision": {
+        "mean": 0.0,
+        "std": 0.0
+      },
+      "recall": {
+        "mean": 0.0,
+        "std": 0.0
+      }
+    },
+    "logistic_regression": {
+      "f1": {
+        "mean": 0.643,
+        "std": 0.009
+      },
+      "roc_auc": {
+        "mean": 0.8988,
+        "std": 0.0042
+      },
+      "rmse": {
+        "mean": 0.3267,
+        "std": 0.0035
+      },
+      "mae": {
+        "mean": 0.2119,
+        "std": 0.0022
+      },
+      "accuracy": {
+        "mean": 0.8444,
+        "std": 0.0038
+      },
+      "precision": {
+        "mean": 0.7136,
+        "std": 0.0095
+      },
+      "recall": {
+        "mean": 0.5851,
+        "std": 0.0088
+      }
+    },
+    "random_forest": {
+      "f1": {
+        "mean": 0.6651,
+        "std": 0.0093
+      },
+      "roc_auc": {
+        "mean": 0.9168,
+        "std": 0.0045
+      },
+      "rmse": {
+        "mean": 0.3103,
+        "std": 0.0034
+      },
+      "mae": {
+        "mean": 0.2085,
+        "std": 0.0024
+      },
+      "accuracy": {
+        "mean": 0.862,
+        "std": 0.0034
+      },
+      "precision": {
+        "mean": 0.7936,
+        "std": 0.008
+      },
+      "recall": {
+        "mean": 0.5724,
+        "std": 0.0103
+      }
+    },
+    "gradient_boosting": {
+      "f1": {
+        "mean": 0.71,
+        "std": 0.0094
+      },
+      "roc_auc": {
+        "mean": 0.9281,
+        "std": 0.0035
+      },
+      "rmse": {
+        "mean": 0.2971,
+        "std": 0.0039
+      },
+      "mae": {
+        "mean": 0.1753,
+        "std": 0.003
+      },
+      "accuracy": {
+        "mean": 0.8715,
+        "std": 0.0041
+      },
+      "precision": {
+        "mean": 0.7724,
+        "std": 0.0103
+      },
+      "recall": {
+        "mean": 0.657,
+        "std": 0.0103
+      }
+    }
+  },
+  "best_model": "gradient_boosting",
+  "test": {
+    "best": {
+      "f1": 0.7237,
+      "roc_auc": 0.9331,
+      "rmse": 0.2919,
+      "mae": 0.1712,
+      "accuracy": 0.8761,
+      "precision": 0.7764,
+      "recall": 0.6777
+    },
+    "baseline": {
+      "f1": 0.0,
+      "roc_auc": 0.5,
+      "rmse": 0.4267,
+      "mae": 0.3642,
+      "accuracy": 0.7606,
+      "precision": 0.0,
+      "recall": 0.0
+    }
+  },
+  "confusion": {
+    "true_negative": 6966,
+    "false_positive": 456,
+    "false_negative": 753,
+    "true_positive": 1583
+  },
+  "errors_by_group": {
+    "sex": {
+      "Female": {
+        "rows": 3326,
+        "actual_share": 0.1152,
+        "predicted_share": 0.0797,
+        "miss_rate": 0.4308,
+        "false_alarm_rate": 0.016,
+        "error_rate": 0.0637
+      },
+      "Male": {
+        "rows": 6432,
+        "actual_share": 0.3036,
+        "predicted_share": 0.2758,
+        "miss_rate": 0.3011,
+        "false_alarm_rate": 0.0913,
+        "error_rate": 0.155
+      }
+    },
+    "age_band": {
+      "under 25": {
+        "rows": 1663,
+        "actual_share": 0.015,
+        "predicted_share": 0.0048,
+        "miss_rate": 0.72,
+        "false_alarm_rate": 0.0006,
+        "error_rate": 0.0114
+      },
+      "25-34": {
+        "rows": 2463,
+        "actual_share": 0.1563,
+        "predicted_share": 0.1238,
+        "miss_rate": 0.4026,
+        "false_alarm_rate": 0.0361,
+        "error_rate": 0.0934
+      },
+      "35-44": {
+        "rows": 2446,
+        "actual_share": 0.343,
+        "predicted_share": 0.3021,
+        "miss_rate": 0.3075,
+        "false_alarm_rate": 0.0983,
+        "error_rate": 0.1701
+      },
+      "45-54": {
+        "rows": 1783,
+        "actual_share": 0.3803,
+        "predicted_share": 0.3651,
+        "miss_rate": 0.2493,
+        "false_alarm_rate": 0.1285,
+        "error_rate": 0.1744
+      },
+      "55-64": {
+        "rows": 958,
+        "actual_share": 0.3257,
+        "predicted_share": 0.2808,
+        "miss_rate": 0.359,
+        "false_alarm_rate": 0.1068,
+        "error_rate": 0.1889
+      },
+      "65+": {
+        "rows": 445,
+        "actual_share": 0.218,
+        "predicted_share": 0.1506,
+        "miss_rate": 0.4227,
+        "false_alarm_rate": 0.0316,
+        "error_rate": 0.1169
+      }
+    },
+    "education_band": {
+      "below high school": {
+        "rows": 1292,
+        "actual_share": 0.058,
+        "predicted_share": 0.0186,
+        "miss_rate": 0.6933,
+        "false_alarm_rate": 0.0008,
+        "error_rate": 0.041
+      },
+      "high school": {
+        "rows": 3115,
+        "actual_share": 0.1605,
+        "predicted_share": 0.0825,
+        "miss_rate": 0.62,
+        "false_alarm_rate": 0.0256,
+        "error_rate": 0.121
+      },
+      "some college": {
+        "rows": 2909,
+        "actual_share": 0.186,
+        "predicted_share": 0.1647,
+        "miss_rate": 0.3919,
+        "false_alarm_rate": 0.0633,
+        "error_rate": 0.1244
+      },
+      "bachelor": {
+        "rows": 1625,
+        "actual_share": 0.4326,
+        "predicted_share": 0.4603,
+        "miss_rate": 0.1707,
+        "false_alarm_rate": 0.179,
+        "error_rate": 0.1754
+      },
+      "above bachelor": {
+        "rows": 817,
+        "actual_share": 0.6328,
+        "predicted_share": 0.6499,
+        "miss_rate": 0.1141,
+        "false_alarm_rate": 0.2433,
+        "error_rate": 0.1616
+      }
+    },
+    "hours_band": {
+      "under 35": {
+        "rows": 1737,
+        "actual_share": 0.0829,
+        "predicted_share": 0.0455,
+        "miss_rate": 0.5139,
+        "false_alarm_rate": 0.0056,
+        "error_rate": 0.0478
+      },
+      "35-40": {
+        "rows": 5235,
+        "actual_share": 0.2059,
+        "predicted_share": 0.1729,
+        "miss_rate": 0.359,
+        "false_alarm_rate": 0.0515,
+        "error_rate": 0.1148
+      },
+      "41-50": {
+        "rows": 1749,
+        "actual_share": 0.4014,
+        "predicted_share": 0.3859,
+        "miss_rate": 0.2479,
+        "false_alarm_rate": 0.1404,
+        "error_rate": 0.1835
+      },
+      "over 50": {
+        "rows": 1037,
+        "actual_share": 0.3973,
+        "predicted_share": 0.3664,
+        "miss_rate": 0.2864,
+        "false_alarm_rate": 0.1376,
+        "error_rate": 0.1967
+      }
+    }
+  }
+}
