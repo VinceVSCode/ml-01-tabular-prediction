@@ -97,7 +97,7 @@ These numbers come from one short run on a laptop CPU, with default model settin
 | Random forest | 0.665 | 0.917 | 0.310 | 0.209 | 0.862 | 0.794 | 0.572 |
 | **Gradient boosting (chosen)** | **0.710** | **0.928** | **0.297** | **0.175** | **0.872** | 0.772 | **0.657** |
 
-Gradient boosting is best on every metric except precision. The spread between folds is small (at most 0.012); it is in [reports/metrics.md](reports/metrics.md).
+Gradient boosting is best on every metric except precision. The spread between folds is small (a standard deviation of about 0.01 at most); it is in [reports/metrics.md](reports/metrics.md).
 
 ### Test rows (9,758 people the model never saw)
 

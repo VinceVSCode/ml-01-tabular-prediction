@@ -1,0 +1,14 @@
+{
+  "id": "ml-01",
+  "title": "Tabular Prediction with Exploratory Analysis",
+  "track": "machine-learning",
+  "summary": "Predicts whether a person earns above 50K from census data: cleaning, a scikit-learn feature pipeline, three models compared with cross-validation, and an error analysis.",
+  "skills": ["Python", "Pandas", "Exploratory Data Analysis", "scikit-learn", "Cross-Validation", "Feature Engineering"],
+  "repo": "https://github.com/VinceVSCode/ml-01-tabular-prediction",
+  "demo_url": null,
+  "thumbnail": "docs/media/thumbnail.png",
+  "demo_media": "docs/media/demo.png",
+  "run_command": "python scripts/train.py",
+  "status": "complete",
+  "version": "1.0.0"
+}
