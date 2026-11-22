@@ -183,7 +183,7 @@ The 103 tests use a small made-up table and never download anything. They cover 
 - The quick start gives the activation command for each system and shell, and says that the scripts work in the folder they are started from.
 - Each of these has a test, 23 in all (103 tests in total).
 
-## Next steps
+## Considered improvements
 
 - Tune the best model and choose the cut-off on validation data.
 - Check and improve the calibration of the probabilities.
