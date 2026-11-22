@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from tabular_prediction.metrics import METRICS
+
 # --- data --------------------------------------------------------------------
 
 DATA_URLS = {
@@ -59,6 +61,10 @@ DROPPED_COLUMNS = ("fnlwgt", "education")
 # --- training ----------------------------------------------------------------
 
 
+class SettingsError(ValueError):
+    """Raised when a value in ``Settings`` cannot be used. The message names the setting."""
+
+
 @dataclass(frozen=True)
 class Settings:
     """Settings of one run. The defaults are the ones the README results use."""
@@ -82,6 +88,11 @@ class Settings:
     boosting_learning_rate: float = 0.1
     root: Path = field(default_factory=Path.cwd)
 
+    def __post_init__(self) -> None:
+        problems = settings_problems(self)
+        if problems:
+            raise SettingsError("invalid settings in config.py: " + "; ".join(problems))
+
     @property
     def raw_dir(self) -> Path:
         return self.root / "data" / "raw"
@@ -101,3 +112,51 @@ class Settings:
     @property
     def figures_dir(self) -> Path:
         return self.root / "reports" / "figures"
+
+
+def _is_int(value: object) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _is_number(value: object) -> bool:
+    return isinstance(value, int | float) and not isinstance(value, bool)
+
+
+def settings_problems(settings: Settings) -> list[str]:
+    """Return one sentence for each setting that cannot be used (empty if all are fine)."""
+    problems = []
+    if settings.selection_metric not in METRICS:
+        problems.append(
+            f"selection_metric is {settings.selection_metric!r}, "
+            f"but must be one of: {', '.join(METRICS)}"
+        )
+    minimums = {
+        "seed": 0,
+        "cv_folds": 2,
+        "max_threads": 1,
+        "logistic_max_iter": 1,
+        "forest_trees": 1,
+        "forest_max_depth": 1,
+        "boosting_iterations": 1,
+    }
+    for name, minimum in minimums.items():
+        value = getattr(settings, name)
+        if not _is_int(value) or value < minimum:
+            problems.append(f"{name} is {value!r}, but must be a whole number of {minimum} or more")
+    if settings.max_rows is not None and (not _is_int(settings.max_rows) or settings.max_rows < 1):
+        problems.append(
+            f"max_rows is {settings.max_rows!r}, but must be None or a whole number of 1 or more"
+        )
+    for name in ("test_size", "threshold"):
+        value = getattr(settings, name)
+        if not _is_number(value) or not 0 < value < 1:
+            problems.append(f"{name} is {value!r}, but must be a number between 0 and 1")
+    share = settings.min_category_share
+    if not _is_number(share) or not 0 <= share < 1:
+        problems.append(
+            f"min_category_share is {share!r}, but must be a number from 0 up to (not including) 1"
+        )
+    rate = settings.boosting_learning_rate
+    if not _is_number(rate) or rate <= 0:
+        problems.append(f"boosting_learning_rate is {rate!r}, but must be a number above 0")
+    return problems

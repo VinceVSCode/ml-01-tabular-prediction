@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import http.client
 import urllib.request
 from pathlib import Path
 
@@ -17,7 +18,10 @@ class DataError(Exception):
 
 def sha256_of(path: Path) -> str:
     """Return the SHA-256 checksum of a file."""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as error:
+        raise DataError(f"Cannot read {path}: {error.strerror or error}") from error
 
 
 def download_raw(raw_dir: Path, *, check: bool = True) -> list[Path]:
@@ -31,9 +35,12 @@ def download_raw(raw_dir: Path, *, check: bool = True) -> list[Path]:
             try:
                 with urllib.request.urlopen(url, timeout=60) as response:  # noqa: S310
                     temporary.write_bytes(response.read())
-            except OSError as error:
+            # OSError: no connection, a timeout, or a failed write to disk.
+            # HTTPException: the connection broke off in the middle of the file.
+            except (OSError, http.client.HTTPException) as error:
                 temporary.unlink(missing_ok=True)
-                raise DataError(f"Cannot download {url}: {error}") from error
+                reason = f"{type(error).__name__}: {error}" if str(error) else type(error).__name__
+                raise DataError(f"Cannot download {url} ({reason})") from error
             temporary.replace(path)
         if check and sha256_of(path) != DATA_SHA256[name]:
             raise DataError(

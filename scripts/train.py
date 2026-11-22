@@ -2,8 +2,10 @@
 
 Usage: python scripts/train.py
 
-Run it from the project folder. With the same settings it writes the same
-reports/metrics.json every time (the seed is fixed in config.py).
+It works in the folder it is run from: the data, the reports and the model are
+read from and written to data/, reports/ and models/ there. Run it from the
+project folder. With the same settings it writes the same reports/metrics.json
+every time (the seed is fixed in config.py).
 """
 
 from __future__ import annotations
@@ -11,20 +13,25 @@ from __future__ import annotations
 import sys
 import time
 
-from tabular_prediction.config import Settings
+from tabular_prediction.config import Settings, SettingsError
+from tabular_prediction.console import describe_os_error, use_utf8_output
 from tabular_prediction.data import DataError, download_raw
 from tabular_prediction.metrics import METRICS
 from tabular_prediction.pipeline import run
 
 
 def main() -> int:
-    settings = Settings()
+    use_utf8_output()
     started = time.perf_counter()
     try:
+        settings = Settings()
         download_raw(settings.raw_dir)
         summary = run(settings)
-    except DataError as error:
+    except (SettingsError, DataError) as error:
         print(f"Error: {error}", file=sys.stderr)
+        return 1
+    except OSError as error:
+        print(f"Error: {describe_os_error(error)}", file=sys.stderr)
         return 1
 
     cleaning = summary["cleaning"]
