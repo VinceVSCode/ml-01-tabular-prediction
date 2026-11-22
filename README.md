@@ -2,7 +2,7 @@
 
 Predicts whether a person earns above 50,000 dollars a year from census data: exploratory analysis, cleaning, a scikit-learn feature pipeline, three models compared with cross-validation, and an error analysis.
 
-> **Status:** pending quality review. This project has not had its final review yet.
+> **Status:** complete. Passed its quality review on 2026-11-22 (version 1.0.1).
 
 ## Demo
 
@@ -25,21 +25,34 @@ The complete workflow for a standard prediction problem, from raw files to a tes
 
 ## Quick start
 
-You need Python 3.11 or newer.
+You need Python 3.12 or newer (tested with 3.13). Run these in the project folder.
 
-```bash
-python -m venv .venv && .venv/Scripts/activate
-```
+1. Create a virtual environment:
 
-```bash
-pip install -e ".[dev]"
-```
+   ```bash
+   python -m venv .venv
+   ```
 
-```bash
-python scripts/train.py
-```
+2. Activate it. The command depends on your system:
 
-On macOS or Linux, activate the environment with `source .venv/bin/activate`.
+   | System and shell | Command |
+   |---|---|
+   | Windows, PowerShell | `.venv\Scripts\Activate.ps1` |
+   | Windows, Command Prompt | `.venv\Scripts\activate.bat` |
+   | Windows, Git Bash | `source .venv/Scripts/activate` |
+   | macOS or Linux | `source .venv/bin/activate` |
+
+3. Install and run:
+
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
+   ```bash
+   python scripts/train.py
+   ```
+
+**Run the scripts from the project folder.** They work in the folder they are started from: the data goes into `data/`, the results into `reports/` and the model into `models/` inside that folder. Started from another folder, they download the data again and write a new set of results there.
 
 The last command downloads the data (6 MB) on its first run, then cleans it, compares the models, tests the best one, and writes `reports/metrics.md`, `reports/metrics.json`, three figures and the model file. It took about 40 seconds on a 2-core laptop.
 
@@ -149,7 +162,7 @@ pytest
 python scripts/validate_portfolio.py
 ```
 
-The 80 tests use a small made-up table and never download anything. They cover reading and cleaning, the features, each metric on a case worked out by hand, the training, and that the same seed gives exactly the same metrics.
+The 103 tests use a small made-up table and never download anything. They cover reading and cleaning, the features, each metric on a case worked out by hand, the training, that the same seed gives exactly the same metrics, and that every error (a wrong setting, a broken download, a file that cannot be read or written) ends in one clear message instead of a traceback.
 
 ## Limitations
 
@@ -158,6 +171,17 @@ The 80 tests use a small made-up table and never download anything. They cover r
 - The data is from 1994 and from one country. The model says nothing reliable about incomes today.
 - The data includes sex, race and country of birth, and the model uses them. Its errors differ between groups (see the error analysis). It must not be used to make decisions about people.
 - The model file is not stored in the repository. Run the training to create it.
+
+## Changes
+
+**1.0.1** (2026-11-22), after the quality review:
+
+- The pinned NumPy version needs Python 3.12, but the project said 3.11 was enough, so installing on 3.11 failed. The project now asks for Python 3.12 or newer.
+- On Windows, a project folder with Greek or other non-Latin letters in its name caused a `UnicodeEncodeError` crash when the output was redirected to a file or a pipe. The output is now always UTF-8.
+- A setting in `config.py` that cannot be used (for example `selection_metric = "F1"` instead of `"f1"`) ended in a `KeyError` traceback. Every setting is now checked first, and each wrong one is named in one error message, with the allowed values.
+- A download that broke off in the middle (`http.client.IncompleteRead`) and a file that cannot be read or written ended in a traceback. Both now give one clear error line.
+- The quick start gives the activation command for each system and shell, and says that the scripts work in the folder they are started from.
+- Each of these has a test, 23 in all (103 tests in total).
 
 ## Next steps
 

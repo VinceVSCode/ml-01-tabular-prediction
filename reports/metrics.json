@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "settings": {
     "seed": 42,
     "test_size": 0.2,

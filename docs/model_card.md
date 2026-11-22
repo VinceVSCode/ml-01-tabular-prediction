@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Model** | Gradient boosting (scikit-learn `HistGradientBoostingClassifier`, 150 iterations, learning rate 0.1), after a `ColumnTransformer` that prepares the features |
-| **Version** | 1.0.0, trained on 2026-11-15 with seed 42 |
+| **Version** | 1.0.1, trained on 2026-11-22 with seed 42 (the same model and numbers as 1.0.0) |
 | **Task** | Predict whether a person's yearly income is above 50,000 US dollars |
 | **Output** | A probability between 0 and 1. At 0.5 or more the answer is "above 50K" |
 | **File** | `models/income_model.joblib`, created by `python scripts/train.py` (not stored in the repository) |
